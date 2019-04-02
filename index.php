@@ -9,7 +9,7 @@
 </head>
 <body>
   <main id="content">
-    <h1>Laboration 1</h1>
+    <h1>Login Page</h1>
     <form action="index.php" method="post">
         <label for="username">Username</label>
         <input type="text" placeholder="Enter your username..." name="username">
@@ -22,5 +22,41 @@
 </html>
 
 <?php 
+
+    try {
+
+        if (isset($_POST["username"]) && isset($_POST["password"])) {
+
+            $inputUsername = $_POST["username"];
+            $inputPassword = $_POST["password"];
+
+            // Salts
+            $salt1 = "987fed";
+            $salt2 = "654cba";
+
+            // New user with pw
+            $username = "admin";
+            $userPw = "admin123";
+            
+            $hashedPw = password_hash($salt1 . $userPw . $salt2, PASSWORD_BCRYPT);
+
+            // Check if pw is correct
+            if (password_verify($salt1 . $userPw . $salt2, $hashedPw)) {
+                echo "You have logged in";
+            } else {
+                echo "Your password is incorrect. Try again";
+            }
+
+            $jsonArray = array("username"=>$inputUsername, "password"=>$hashedPw);
+
+            $fp = fopen('./logins.json', 'w'); 
+            fwrite($fp, json_encode($jsonArray));
+            fclose($fp);
+
+        }
+
+    } catch(Exception $error) {
+        echo('There was an error: ' . $error->getMessage());
+    }
 
 ?>

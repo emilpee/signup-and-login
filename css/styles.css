@@ -49,6 +49,7 @@ label {
     font-weight: 600;
     background: rgb(255, 253, 142, .8);
     text-transform: uppercase;
+    cursor: pointer;
 }
 
 .btn:hover {
