@@ -4,13 +4,17 @@ body {
     color: #333;
     background: url('../img/background.jpg');
     background-size: cover;
+    height: 100vh;
+    overflow: hidden;
 }
 
 .content {
     display: flex;
     flex-direction: column;
     align-items: center;
+    max-height: 100vh;
     justify-content: center;
+    overflow: hidden;
 }
 
 
@@ -103,3 +107,18 @@ p {
 .fail {
     color: rgba(253, 59, 59);
 }
+
+@keyframes showMessage {
+    from {
+      opacity: .5;
+      transform: scale(.8);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  .showMessage {
+    animation: showMessage 2s ease;
+  }

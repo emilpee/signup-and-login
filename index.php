@@ -5,9 +5,9 @@
     <h1>Login</h1>
     <form action="index.php" method="post">
         <label for="username">Username</label>
-        <input type="text" placeholder="Enter your username..." name="username">
+        <input type="text" placeholder="Enter your username..." name="username" required>
         <label for="password">Password</label>
-        <input type="password" placeholder="Enter your password..." name="password"">
+        <input type="password" placeholder="Enter your password..." name="password" required>
         <input type="submit" class="btn" value="Sign in">
     </form>
     <span class="register">
@@ -26,14 +26,21 @@
             $inputUsername = $_POST["username"];
             $inputPassword = $_POST["password"];
 
-            $url = 'logins.json';
+            // Salts
+            $salt1 = "987fed";
+            $salt2 = "654cba";
 
+            // Get login data from json file
+            $url = 'logins.json';
             $data = file_get_contents($url);
             $login = json_decode($data);
 
-            if ($login->username == $inputUsername) {
-                echo 'Username matches';
+            if ($login->username == $inputUsername && password_verify($salt1 . $inputPassword . $salt2,  $login->password) == $inputPassword) {
+                echo '<p>Success! You have logged in.</p>';
+            } else {
+                echo '<p>Username or password was incorrect.</p>';
             }
+
         }
 
     } catch(Exception $error) {
@@ -48,8 +55,10 @@
 
     if (message.innerText === "Success! You have logged in.") {
         message.classList.add('success');
+        message.classList.toggle('showMessage');
     } else {
         message.classList.add('fail');
+        message.classList.toggle('showMessage');
     }
 
 </script>
