@@ -1,19 +1,24 @@
 body {
     margin: 0;
     font-family: 'Verdana', 'Tahoma', sans-serif;
-    color: #222;
-    background: linear-gradient(to right, rgb(22, 133, 87), rgb(56, 245, 235), rgb(30, 210, 255));
+    color: #333;
+    background: url('../img/background.jpg');
+    background-size: cover;
 }
 
-#content {
+.content {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
-h1 {
-    padding: .5rem;
+
+/* Form settings */
+#reg {
+    background: rgba(160, 160, 160, 0.5);
+    color: white;
+    padding: 1rem;
 }
 
 input[type="text"], input[type="password"] {
@@ -53,6 +58,48 @@ label {
 }
 
 .btn:hover {
-    background: rgb(255, 253, 142);
-    border: 2px white solid;
+    background: linear-gradient(to right, rgba(138, 184, 245, .7), rgba(134, 220, 241, 0.705));
+}
+
+/* Text settings */
+.register {
+    font-size: .5em;
+    margin: 1.5rem;
+}
+
+.register a {
+    text-decoration: none;
+    color: rgb(255, 253, 142);
+}
+
+
+.register a:hover {
+    text-decoration: none;
+    color: rgb(88, 148, 216);
+}
+
+h1 {
+    padding: .5rem;
+}
+
+p {
+    font-weight: 700;
+    display: flex;
+    width: 25rem;
+    margin: auto;
+    padding: 1rem;
+    background: rgba(0, 0, 0, .5);
+    border-radius: 4px;
+    text-shadow: 1px 1px 3px black;
+    justify-content: center;
+    margin-top: 2rem;
+    align-items: center;
+}
+
+.success {
+    color: rgb(59, 253, 59);
+}
+
+.fail {
+    color: rgba(253, 59, 59);
 }
