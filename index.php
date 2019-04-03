@@ -3,7 +3,7 @@
 <body>
   <main class="content">
     <h1>Login</h1>
-    <form action="index.php" method="post">
+    <form action="index.php" id="reg" method="post">
         <label for="username">Username</label>
         <input type="text" placeholder="Enter your username..." name="username" required>
         <label for="password">Password</label>
