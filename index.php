@@ -35,12 +35,24 @@
             $data = file_get_contents($url);
             $login = json_decode($data);
 
-            if ($login->username == $inputUsername && password_verify($salt1 . $inputPassword . $salt2,  $login->password) == $inputPassword) {
-                echo '<p>Success! You have logged in.</p>';
-            } else {
-                echo '<p>Username or password was incorrect.</p>';
+            foreach($login as $user){
+                $names[] = $user->username;
+                $passwords[] = $user->password;
             }
 
+            $registeredUsers = json_encode($names);
+            $registeredPws = json_encode($passwords);
+            
+        for ($i = 0; $i <= count($names); $i++) {
+          if (isset($passwords[$i])) {
+            if (strpos($registeredUsers, $inputUsername) !== false && password_verify($salt1 . $inputPassword . $salt2,  $passwords[$i]) == $inputPassword) {
+                if (!$i++) echo '<p>Success! You have logged in.</p>';
+            } else if (strpos($registeredUsers, $inputUsername) == false || password_verify($salt1 . $inputPassword . $salt2,  $passwords[$i]) != $inputPassword)  {
+                if (!$i++) echo '<p>Username or password was incorrect.</p>';
+            }
+          }
+        }
+                
         }
 
     } catch(Exception $error) {
@@ -51,14 +63,14 @@
 
 <script>
 
-    var message = document.querySelector('p');
+var message = document.querySelector('p');
 
-    if (message.innerText === "Success! You have logged in.") {
-        message.classList.add('success');
-        message.classList.toggle('showMessage');
-    } else {
-        message.classList.add('fail');
-        message.classList.toggle('showMessage');
-    }
+if (message.innerText === "Success! You have logged in.") {
+    message.classList.add('success');
+    message.classList.add('showMessage');
+} else {
+    message.classList.add('fail');
+    message.classList.toggle('showMessage');
+}
 
 </script>

@@ -23,15 +23,23 @@
 
     if (isset($_POST["registerUsername"]) && isset($_POST["registerPassword"])) {
 
+      $registerUsername = $_POST["registerUsername"];
+      $registerPassword = $_POST["registerPassword"];
+
       // Get login data from json file
       $url = 'logins.json';
       $data = file_get_contents($url);
       $login = json_decode($data);
 
-      $registerUsername = $_POST["registerUsername"];
-      $registerPassword = $_POST["registerPassword"];
-
-      if ($login->username != $registerUsername) {
+      // Loop through users to be able to check if username already exists
+      foreach($login as $user){
+          $names[] = $user->username;
+      }
+      
+      // Save users in string format
+      $registeredUsers = json_encode($names);
+    
+      if (strpos($registeredUsers, $registerUsername) == false) {
 
         echo '<p>Thank you for registering!</p>';
 
@@ -42,18 +50,20 @@
           // Hash users password
           $hashedPassword = password_hash($salt1 . $registerPassword . $salt2, PASSWORD_BCRYPT);
 
-          // Store username and hashed password to json file
+          // Store username and hashed password to json array
+          $getUsers = file_get_contents('logins.json');
+          $currentUsers = json_decode($getUsers, true);
           $jsonArray = array("username"=>$registerUsername, "password"=>$hashedPassword);
+          $currentUsers[] = $jsonArray;
+          $users = json_encode($currentUsers);
 
-          $fp = fopen('logins.json', 'w'); 
-          fwrite($fp, json_encode($jsonArray));
-          fclose($fp);
+          file_put_contents('logins.json', $users);
 
-      } else {
-        echo '<p>Sorry, username is already taken.</p>';
-      }
-
+      } else if (strpos($registeredUsers, $registerUsername) !== false) {
+          echo '<p>Sorry, username is already taken.</p>';
+      } 
     }
+    
 
   } catch(Exception $error) {
       echo('There was an error: ' . $error->getMessage());
@@ -62,6 +72,7 @@
 ?>
 
 <script>
+
 
     var message = document.querySelector('p');
 
